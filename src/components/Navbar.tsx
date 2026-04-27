@@ -55,9 +55,9 @@ export const Navbar = ({ user, isAdmin }: NavbarProps) => {
             href={`https://wa.me/${BRAND_INFO.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-brand-accent text-black px-6 py-2 rounded-none font-display font-black italic text-xs tracking-widest"
+            className="flex items-center gap-2 bg-brand-accent text-black px-4 md:px-6 py-2 rounded-none font-display font-black italic text-[10px] md:text-xs tracking-widest"
           >
-            <Send size={14} />
+            <Send size={12} className="md:size-[14px]" />
             <span>CONTATO</span>
           </motion.a>
         </div>

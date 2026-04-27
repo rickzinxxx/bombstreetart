@@ -321,28 +321,28 @@ export function CinematicHero({
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
 
       {/* Intro Text Layer */}
-      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 will-change-transform transform-style-3d">
-        <h1 className="text-track text-3d-matte text-2xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-2 uppercase leading-[0.9]">
+      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-6 will-change-transform transform-style-3d">
+        <h1 className="text-track text-3d-matte text-xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-1 uppercase leading-[0.9]">
           {tagline1}
         </h1>
-        <h1 className="text-days text-brand-accent text-2xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase leading-[0.9]">
+        <h1 className="text-days text-brand-accent text-xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase leading-[0.9]">
           {tagline2}
         </h1>
       </div>
 
       {/* CTA Layer */}
-      <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 pointer-events-auto will-change-transform">
-        <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-brand-accent italic uppercase">
+      <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-6 pointer-events-auto will-change-transform">
+        <h2 className="text-2xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight text-brand-accent italic uppercase">
           {ctaHeading}
         </h2>
-        <p className="text-gray-400 text-sm md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed italic uppercase font-bold text-center">
+        <p className="text-gray-400 text-[10px] md:text-xl mb-8 max-w-xl mx-auto font-light leading-relaxed italic uppercase font-bold text-center">
           {ctaDescription}
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-none px-6 sm:px-0">
-          <a href="#products" className="btn-modern-light flex items-center justify-center gap-3 px-6 py-4 md:px-10 md:py-5 rounded-none font-black italic uppercase tracking-widest text-sm md:text-lg">
+        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[280px] sm:max-w-none">
+          <a href="#products" className="btn-modern-light flex items-center justify-center gap-2 px-4 py-3 md:px-10 md:py-5 rounded-none font-black italic uppercase tracking-widest text-[10px] md:text-lg">
              Ver Coleção
           </a>
-          <a href={`https://wa.me/5581998010914`} target="_blank" className="btn-modern-dark flex items-center justify-center gap-3 px-6 py-4 md:px-10 md:py-5 rounded-none font-black italic uppercase tracking-widest text-sm md:text-lg border border-white/20">
+          <a href={`https://wa.me/5581998010914`} target="_blank" className="btn-modern-dark flex items-center justify-center gap-2 px-4 py-3 md:px-10 md:py-5 rounded-none font-black italic uppercase tracking-widest text-[10px] md:text-lg border border-white/20">
              WhatsApp
           </a>
         </div>
@@ -358,8 +358,8 @@ export function CinematicHero({
 
           <div className="relative w-full h-full max-w-7xl mx-auto px-4 lg:px-12 flex flex-col justify-evenly lg:grid lg:grid-cols-3 items-center lg:gap-8 z-10 py-6 lg:py-0">
             
-            <div className="card-right-text order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full mb-2 lg:mb-0">
-              <h2 className="text-4xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-brand-accent italic lg:mt-0 leading-none">
+            <div className="card-right-text order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full mb-1 lg:mb-0">
+              <h2 className="text-3xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-brand-accent italic lg:mt-0 leading-none">
                 {brandName}
               </h2>
             </div>

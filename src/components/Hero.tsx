@@ -42,7 +42,7 @@ export const Hero = () => {
   ];
 
   return (
-    <section ref={containerRef} className="relative min-h-[120vh] flex items-center justify-center pt-24 overflow-hidden px-6 bg-brand-black">
+    <section ref={containerRef} className="relative min-h-screen md:min-h-[120vh] flex items-center justify-center pt-24 md:pt-24 pb-12 md:pb-0 overflow-hidden px-6 bg-brand-black">
       {/* Dynamic Background Mesh */}
       <div className="absolute inset-0 z-0 opacity-40">
         <GradientMesh 
@@ -60,14 +60,14 @@ export const Hero = () => {
         <motion.h1 
           animate={{ x: [-20, 20] }}
           transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          className="text-[35vw] font-black italic uppercase text-white"
+          className="text-[40vw] md:text-[35vw] font-black italic uppercase text-white"
         >
           BOMB
         </motion.h1>
         <motion.h1 
           animate={{ x: [20, -20] }}
           transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          className="text-[35vw] font-black italic uppercase text-white ml-20"
+          className="text-[40vw] md:text-[35vw] font-black italic uppercase text-white ml-10 md:ml-20"
         >
           STREET
         </motion.h1>
@@ -83,7 +83,7 @@ export const Hero = () => {
             <div className="inline-block px-3 py-1 bg-brand-accent text-black text-[10px] font-black uppercase mb-6 italic tracking-widest">
               Coleção 2024 / {BRAND_INFO.origin}
             </div>
-            <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-display font-black italic leading-[0.8] mb-8 flex flex-col items-center drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
+            <h1 className="text-5xl md:text-8xl lg:text-[10rem] font-display font-black italic leading-[0.8] mb-8 flex flex-col items-center drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
               <TextCursorProximity
                 label="DIRETAMENTE"
                 className="will-change-transform"
