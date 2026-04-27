@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db, signInWithGoogle, logout, handleFirestoreError, OperationType } from '../lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy, onSnapshot } from 'firebase/firestore';
-import { Plus, Trash2, LogOut, Lock, Globe } from 'lucide-react';
+import { collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy, onSnapshot, updateDoc } from 'firebase/firestore';
+import { Plus, Trash2, LogOut, Lock, Globe, Tag } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const ADMIN_EMAIL = "aigerakabane81983521523@gmail.com";
@@ -231,12 +231,25 @@ export const AdminGallery = () => {
                   >
                     <img src={item.url} alt="" className="w-full h-full object-cover transition-all" />
                     <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                      <div className="flex justify-between items-end">
-                        <div>
-                          <p className="text-[10px] text-white font-black italic uppercase truncate">{item.title || "Sem título"}</p>
-                          <p className="text-[8px] text-brand-accent font-bold italic">{item.location}</p>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex justify-between items-end">
+                          <div className="w-full">
+                            <p className="text-[10px] text-white font-black italic uppercase truncate">{item.title || "Sem título"}</p>
+                            <p className="text-[8px] text-brand-accent font-bold italic">{item.location}</p>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Tag size={8} className="text-white/50" />
+                            <select 
+                              value={item.category || "gallery"}
+                              onChange={(e) => handleUpdateCategory(item.id, e.target.value)}
+                              className="text-[7px] bg-white text-black px-1 font-black uppercase mb-0.5 outline-none cursor-pointer"
+                            >
+                              <option value="hero">HERO</option>
+                              <option value="collection">COLLECTION</option>
+                              <option value="gallery">GALLERY</option>
+                            </select>
+                          </div>
                         </div>
-                        <span className="text-[7px] bg-white text-black px-1 font-black uppercase mb-0.5">{item.category}</span>
                       </div>
                     </div>
                     <button 
