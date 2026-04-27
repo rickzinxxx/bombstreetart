@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      // Hardcoded admin for this project's owner
+      return isSignedIn() && (
+        request.auth.token.email == "aigerakabane81983521523@gmail.com" &&
+        request.auth.token.email_verified == true
+      );
+    }
+
+    function isValidGalleryItem(data) {
+      return data.keys().hasAll(['url', 'createdAt', 'category']) &&
+             data.url is string && data.url.size() < 1048576 &&
+             data.category in ['hero', 'collection', 'gallery'] &&
+             data.createdAt == request.time;
+    }
+
+    match /gallery/{itemId} {
+      allow read: if true; // Publicly readable
+      allow create: if isAdmin() && isValidGalleryItem(request.resource.data);
+      allow update: if isAdmin() && isValidGalleryItem(request.resource.data);
+      allow delete: if isAdmin();
+    }
+  }
+}

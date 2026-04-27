@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "galleryItem": {
+      "title": "Gallery Item",
+      "description": "An image item displayed in the main gallery",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri", "description": "URL or Base64 of the image" },
+        "title": { "type": "string", "description": "Title or label for the image" },
+        "location": { "type": "string", "description": "Location tag (e.g. RECIFE/PE)" },
+        "category": { "type": "string", "enum": ["hero", "collection", "gallery"], "description": "Where the image is displayed" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "order": { "type": "number", "description": "Display order" }
+      },
+      "required": ["url", "createdAt", "category"]
+    }
+  },
+  "firestore": {
+    "/gallery": {
+      "schema": "galleryItem",
+      "description": "Main gallery images collection"
+    }
+  }
+}
