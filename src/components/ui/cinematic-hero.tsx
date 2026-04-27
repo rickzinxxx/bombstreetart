@@ -238,32 +238,35 @@ export function CinematicHero({
     const isMobile = window.innerWidth < 768;
 
     const ctx = gsap.context(() => {
+      // INITIAL STATES
       gsap.set(".text-track", { autoAlpha: 0, y: 60, scale: 0.85, filter: "blur(20px)", rotationX: -20 });
       gsap.set(".text-days", { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" });
       gsap.set(".main-card", { y: window.innerHeight + 200, autoAlpha: 1 });
       gsap.set([".card-left-text", ".card-right-text", ".mockup-scroll-wrapper", ".floating-badge", ".phone-widget"], { autoAlpha: 0 });
       gsap.set(".cta-wrapper", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
 
-      const introTl = gsap.timeline({ delay: 0.3 });
-      introTl
-        .to(".text-track", { duration: 1.8, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "expo.out" })
-        .to(".text-days", { duration: 1.4, clipPath: "inset(0 0% 0 0)", ease: "power4.inOut" }, "-=1.0");
-
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=5000",
+          end: isMobile ? "+=2500" : "+=4500",
           pin: true,
-          scrub: 1,
+          scrub: 1.2, // Smoother scrub
           anticipatePin: 1,
         },
       });
 
+      // 1. TEXT REVEAL (Taglines) - Now part of scrub
       scrollTl
-        .to([".hero-text-wrapper", ".bg-grid-theme"], { scale: 1.15, filter: "blur(20px)", opacity: 0.2, ease: "power2.inOut", duration: 2 }, 0)
-        .to(".main-card", { y: 0, ease: "power3.inOut", duration: 2 }, 0)
+        .to(".text-track", { duration: 1, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "power2.out" })
+        .to(".text-days", { duration: 1, clipPath: "inset(0 0% 0 0)", ease: "power2.inOut" }, "-=0.5")
+        
+        // 2. CARD ENTRANCE
+        .to([".hero-text-wrapper", ".bg-grid-theme"], { scale: 1.15, filter: "blur(20px)", opacity: 0.1, ease: "power2.inOut", duration: 1.5 })
+        .to(".main-card", { y: 0, ease: "power3.inOut", duration: 2 }, "-=1")
         .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", ease: "power3.inOut", duration: 1.5 })
+        
+        // 3. MOCKUP & DETAILS
         .fromTo(".mockup-scroll-wrapper",
           { y: 300, z: -500, rotationX: 50, rotationY: -30, autoAlpha: 0, scale: 0.6 },
           { y: 0, z: 0, rotationX: 0, rotationY: 0, autoAlpha: 1, scale: 1, ease: "expo.out", duration: 2.5 }, "-=0.8"
@@ -274,17 +277,19 @@ export function CinematicHero({
         .fromTo(".floating-badge", { y: 100, autoAlpha: 0, scale: 0.7, rotationZ: -10 }, { y: 0, autoAlpha: 1, scale: 1, rotationZ: 0, ease: "back.out(1.5)", duration: 1.5, stagger: 0.2 }, "-=2.0")
         .fromTo(".card-left-text", { x: -50, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "power4.out", duration: 1.5 }, "-=1.5")
         .fromTo(".card-right-text", { x: 50, autoAlpha: 0, scale: 0.8 }, { x: 0, autoAlpha: 1, scale: 1, ease: "expo.out", duration: 1.5 }, "<")
-        .to({}, { duration: 2.5 })
+        
+        // 4. HOLD & TRANSITION TO CTA
+        .to({}, { duration: 1.5 })
         .set(".hero-text-wrapper", { autoAlpha: 0 })
         .set(".cta-wrapper", { autoAlpha: 1 }) 
-        .to({}, { duration: 1.5 })
+        .to({}, { duration: 1.0 })
         .to([".mockup-scroll-wrapper", ".floating-badge", ".card-left-text", ".card-right-text"], {
-          scale: 0.9, y: -40, z: -200, autoAlpha: 0, ease: "power3.in", duration: 1.2, stagger: 0.05,
+          scale: 0.8, y: -60, z: -200, autoAlpha: 0, ease: "power3.in", duration: 1.2, stagger: 0.05,
         })
         .to(".main-card", { 
-          width: isMobile ? "92vw" : "85vw", 
-          height: isMobile ? "92vh" : "85vh", 
-          borderRadius: isMobile ? "32px" : "40px", 
+          width: isMobile ? "94vw" : "85vw", 
+          height: isMobile ? "94vh" : "85vh", 
+          borderRadius: isMobile ? "24px" : "40px", 
           ease: "expo.inOut", 
           duration: 1.8 
         }, "pullback") 
@@ -308,10 +313,10 @@ export function CinematicHero({
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
 
       <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 will-change-transform transform-style-3d">
-        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-2 uppercase">
+        <h1 className="text-track gsap-reveal text-3d-matte text-4xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-2 uppercase leading-[0.9]">
           {tagline1}
         </h1>
-        <h1 className="text-days gsap-reveal text-brand-accent text-5xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase">
+        <h1 className="text-days gsap-reveal text-brand-accent text-4xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase leading-[0.9]">
           {tagline2}
         </h1>
       </div>
@@ -342,8 +347,8 @@ export function CinematicHero({
 
           <div className="relative w-full h-full max-w-7xl mx-auto px-4 lg:px-12 flex flex-col justify-evenly lg:grid lg:grid-cols-3 items-center lg:gap-8 z-10 py-6 lg:py-0">
             
-            <div className="card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full">
-              <h2 className="text-6xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-brand-accent italic lg:mt-0">
+            <div className="card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full mb-4 lg:mb-0">
+              <h2 className="text-5xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-brand-accent italic lg:mt-0 leading-none">
                 {brandName}
               </h2>
             </div>
@@ -435,11 +440,15 @@ export function CinematicHero({
               </div>
             </div>
 
-            <div className="card-left-text gsap-reveal order-3 lg:order-1 flex flex-col justify-center text-center lg:text-left z-20 w-full lg:max-w-none px-4 lg:px-0">
-              <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-0 lg:mb-5 tracking-tight italic uppercase">
+            <div className="card-left-text gsap-reveal order-3 lg:order-1 flex flex-col justify-center text-center lg:text-left z-20 w-full lg:max-w-none px-4 lg:px-0 mt-4 lg:mt-0">
+              <h3 className="text-white text-xl md:text-3xl lg:text-4xl font-bold mb-2 lg:mb-5 tracking-tight italic uppercase leading-snug">
                 {cardHeading}
               </h3>
               <p className="hidden md:block text-white/60 text-sm md:text-base lg:text-lg font-normal leading-relaxed mx-auto lg:mx-0 max-w-sm lg:max-w-none italic uppercase font-bold">
+                {cardDescription}
+              </p>
+              {/* Mobile description - visible only on small screens */}
+              <p className="block md:hidden text-white/60 text-[10px] font-bold italic uppercase leading-normal px-6">
                 {cardDescription}
               </p>
             </div>
