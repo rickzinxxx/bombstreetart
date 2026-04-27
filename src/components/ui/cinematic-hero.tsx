@@ -10,8 +10,6 @@ if (typeof window !== "undefined") {
 }
 
 const INJECTED_STYLES = `
-  .gsap-reveal { visibility: hidden; }
-
   /* Environment Overlays */
   .film-grain {
       position: absolute; inset: 0; width: 100%; height: 100%;
@@ -201,7 +199,8 @@ export function CinematicHero({
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (window.scrollY > window.innerHeight * 10) return;
+      // Disable interaction on small screens or when scrolled away
+      if (window.innerWidth < 768 || window.scrollY > window.innerHeight * 1.5) return;
 
       cancelAnimationFrame(requestRef.current);
       
@@ -238,10 +237,11 @@ export function CinematicHero({
     const isMobile = window.innerWidth < 768;
 
     const ctx = gsap.context(() => {
-      // INITIAL STATES
-      gsap.set(".text-track", { autoAlpha: 0, y: 60, scale: 0.85, filter: "blur(20px)", rotationX: -20 });
+      // --- INITIAL STATES ---
+      // We set these here so that if JS fails, the content is still visible by default
+      gsap.set(".text-track", { autoAlpha: 0, y: isMobile ? 30 : 60, scale: 0.85, filter: "blur(20px)", rotationX: -20 });
       gsap.set(".text-days", { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" });
-      gsap.set(".main-card", { y: window.innerHeight + 200, autoAlpha: 1 });
+      gsap.set(".main-card", { y: isMobile ? "50vh" : "110vh", autoAlpha: 1 });
       gsap.set([".card-left-text", ".card-right-text", ".mockup-scroll-wrapper", ".floating-badge", ".phone-widget"], { autoAlpha: 0 });
       gsap.set(".cta-wrapper", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
 
@@ -249,18 +249,18 @@ export function CinematicHero({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: isMobile ? "+=2000" : "+=4500",
+          end: isMobile ? "+=1800" : "+=4500",
           pin: true,
-          scrub: isMobile ? 0.5 : 1.2,
+          scrub: isMobile ? 0.6 : 1.2,
           anticipatePin: 1,
-          pinType: isMobile ? "fixed" : "fixed",
+          invalidateOnRefresh: true,
         },
       });
 
       // 1. TEXT REVEAL (Taglines)
       scrollTl
         .fromTo(".text-track", 
-          { autoAlpha: 0, y: 60, scale: 0.85, filter: "blur(20px)" },
+          { autoAlpha: 0, y: isMobile ? 30 : 60, scale: 0.85, filter: "blur(20px)" },
           { duration: 1, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "power2.out" }
         )
         .fromTo(".text-days",
@@ -269,7 +269,7 @@ export function CinematicHero({
           "-=0.5"
         )
         
-        // 2. CARD ENTRANCE
+        // 2. CARD ENTRANCE & BACKGROUND FADE
         .to([".hero-text-wrapper", ".bg-grid-theme"], { scale: 1.15, filter: "blur(20px)", opacity: 0.1, ease: "power2.inOut", duration: 1.5 })
         .to(".main-card", { y: 0, ease: "power3.inOut", duration: 2 }, "-=1")
         .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", ease: "power3.inOut", duration: 1.5 })
@@ -320,23 +320,25 @@ export function CinematicHero({
       <div className="film-grain" aria-hidden="true" />
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
 
+      {/* Intro Text Layer */}
       <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 will-change-transform transform-style-3d">
-        <h1 className="text-track gsap-reveal text-3d-matte text-2xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-2 uppercase leading-[0.9]">
+        <h1 className="text-track text-3d-matte text-2xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-2 uppercase leading-[0.9]">
           {tagline1}
         </h1>
-        <h1 className="text-days gsap-reveal text-brand-accent text-2xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase leading-[0.9]">
+        <h1 className="text-days text-brand-accent text-2xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase leading-[0.9]">
           {tagline2}
         </h1>
       </div>
 
-      <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 gsap-reveal pointer-events-auto will-change-transform">
+      {/* CTA Layer */}
+      <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 pointer-events-auto will-change-transform">
         <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-brand-accent italic uppercase">
           {ctaHeading}
         </h2>
-        <p className="text-gray-400 text-sm md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed italic uppercase font-bold">
+        <p className="text-gray-400 text-sm md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed italic uppercase font-bold text-center">
           {ctaDescription}
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-none">
+        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-none px-6 sm:px-0">
           <a href="#products" className="btn-modern-light flex items-center justify-center gap-3 px-6 py-4 md:px-10 md:py-5 rounded-none font-black italic uppercase tracking-widest text-sm md:text-lg">
              Ver Coleção
           </a>
@@ -346,16 +348,17 @@ export function CinematicHero({
         </div>
       </div>
 
+      {/* Main Card Layer */}
       <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" style={{ perspective: "1500px" }}>
         <div
           ref={mainCardRef}
-          className="main-card premium-depth-card relative overflow-hidden gsap-reveal flex items-center justify-center pointer-events-auto w-[92vw] md:w-[85vw] h-[92vh] md:h-[85vh] rounded-[32px] md:rounded-[40px]"
+          className="main-card premium-depth-card relative overflow-hidden flex items-center justify-center pointer-events-auto w-[92vw] md:w-[85vw] h-[92vh] md:h-[85vh] rounded-[24px] md:rounded-[40px]"
         >
           <div className="card-sheen" aria-hidden="true" />
 
           <div className="relative w-full h-full max-w-7xl mx-auto px-4 lg:px-12 flex flex-col justify-evenly lg:grid lg:grid-cols-3 items-center lg:gap-8 z-10 py-6 lg:py-0">
             
-            <div className="card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full mb-2 lg:mb-0">
+            <div className="card-right-text order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full mb-2 lg:mb-0">
               <h2 className="text-4xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-brand-accent italic lg:mt-0 leading-none">
                 {brandName}
               </h2>
@@ -448,7 +451,7 @@ export function CinematicHero({
               </div>
             </div>
 
-            <div className="card-left-text gsap-reveal order-3 lg:order-1 flex flex-col justify-center text-center lg:text-left z-20 w-full lg:max-w-none px-4 lg:px-0 mt-4 lg:mt-0">
+            <div className="card-left-text order-3 lg:order-1 flex flex-col justify-center text-center lg:text-left z-20 w-full lg:max-w-none px-4 lg:px-0 mt-4 lg:mt-0">
               <h3 className="text-white text-xl md:text-3xl lg:text-4xl font-bold mb-2 lg:mb-5 tracking-tight italic uppercase leading-snug">
                 {cardHeading}
               </h3>
@@ -456,9 +459,9 @@ export function CinematicHero({
                 {cardDescription}
               </p>
               {/* Mobile description - visible only on small screens */}
-              <p className="block md:hidden text-white/60 text-[10px] font-bold italic uppercase leading-normal px-6">
+              <div className="block md:hidden text-white/60 text-[10px] font-bold italic uppercase leading-normal px-6">
                 {cardDescription}
-              </p>
+              </div>
             </div>
 
           </div>
