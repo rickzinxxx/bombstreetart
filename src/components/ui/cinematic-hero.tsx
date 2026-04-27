@@ -249,17 +249,25 @@ export function CinematicHero({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: isMobile ? "+=2500" : "+=4500",
+          end: isMobile ? "+=2000" : "+=4500",
           pin: true,
-          scrub: 1.2, // Smoother scrub
+          scrub: isMobile ? 0.5 : 1.2,
           anticipatePin: 1,
+          pinType: isMobile ? "fixed" : "fixed",
         },
       });
 
-      // 1. TEXT REVEAL (Taglines) - Now part of scrub
+      // 1. TEXT REVEAL (Taglines)
       scrollTl
-        .to(".text-track", { duration: 1, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "power2.out" })
-        .to(".text-days", { duration: 1, clipPath: "inset(0 0% 0 0)", ease: "power2.inOut" }, "-=0.5")
+        .fromTo(".text-track", 
+          { autoAlpha: 0, y: 60, scale: 0.85, filter: "blur(20px)" },
+          { duration: 1, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "power2.out" }
+        )
+        .fromTo(".text-days",
+          { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" },
+          { duration: 1, clipPath: "inset(0 0% 0 0)", ease: "power2.inOut" }, 
+          "-=0.5"
+        )
         
         // 2. CARD ENTRANCE
         .to([".hero-text-wrapper", ".bg-grid-theme"], { scale: 1.15, filter: "blur(20px)", opacity: 0.1, ease: "power2.inOut", duration: 1.5 })
@@ -304,35 +312,35 @@ export function CinematicHero({
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-screen h-screen overflow-hidden flex items-center justify-center bg-brand-black text-white font-sans antialiased", className)}
-      style={{ perspective: "1500px" }}
+      className={cn("relative w-full h-[100svh] overflow-hidden flex items-center justify-center bg-brand-black text-white font-sans antialiased", className)}
+      style={{ perspective: "1500px", touchAction: "pan-y" }}
       {...props}
     >
       <style dangerouslySetInnerHTML={{ __html: INJECTED_STYLES }} />
       <div className="film-grain" aria-hidden="true" />
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
 
-      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 will-change-transform transform-style-3d">
-        <h1 className="text-track gsap-reveal text-3d-matte text-4xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-2 uppercase leading-[0.9]">
+      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 will-change-transform transform-style-3d">
+        <h1 className="text-track gsap-reveal text-3d-matte text-2xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-2 uppercase leading-[0.9]">
           {tagline1}
         </h1>
-        <h1 className="text-days gsap-reveal text-brand-accent text-4xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase leading-[0.9]">
+        <h1 className="text-days gsap-reveal text-brand-accent text-2xl md:text-7xl lg:text-[6rem] font-extrabold italic tracking-tighter uppercase leading-[0.9]">
           {tagline2}
         </h1>
       </div>
 
-      <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 gsap-reveal pointer-events-auto will-change-transform">
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-brand-accent italic uppercase">
+      <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 gsap-reveal pointer-events-auto will-change-transform">
+        <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-brand-accent italic uppercase">
           {ctaHeading}
         </h2>
-        <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed italic uppercase font-bold">
+        <p className="text-gray-400 text-sm md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed italic uppercase font-bold">
           {ctaDescription}
         </p>
-        <div className="flex flex-col sm:flex-row gap-6">
-          <a href="#products" className="btn-modern-light flex items-center justify-center gap-3 px-10 py-5 rounded-none font-black italic uppercase tracking-widest text-lg">
+        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-none">
+          <a href="#products" className="btn-modern-light flex items-center justify-center gap-3 px-6 py-4 md:px-10 md:py-5 rounded-none font-black italic uppercase tracking-widest text-sm md:text-lg">
              Ver Coleção
           </a>
-          <a href={`https://wa.me/5581998010914`} target="_blank" className="btn-modern-dark flex items-center justify-center gap-3 px-10 py-5 rounded-none font-black italic uppercase tracking-widest text-lg border border-white/20">
+          <a href={`https://wa.me/5581998010914`} target="_blank" className="btn-modern-dark flex items-center justify-center gap-3 px-6 py-4 md:px-10 md:py-5 rounded-none font-black italic uppercase tracking-widest text-sm md:text-lg border border-white/20">
              WhatsApp
           </a>
         </div>
@@ -347,14 +355,14 @@ export function CinematicHero({
 
           <div className="relative w-full h-full max-w-7xl mx-auto px-4 lg:px-12 flex flex-col justify-evenly lg:grid lg:grid-cols-3 items-center lg:gap-8 z-10 py-6 lg:py-0">
             
-            <div className="card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full mb-4 lg:mb-0">
-              <h2 className="text-5xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-brand-accent italic lg:mt-0 leading-none">
+            <div className="card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full mb-2 lg:mb-0">
+              <h2 className="text-4xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-brand-accent italic lg:mt-0 leading-none">
                 {brandName}
               </h2>
             </div>
 
-            <div className="mockup-scroll-wrapper order-2 lg:order-2 relative w-full h-[380px] lg:h-[600px] flex items-center justify-center z-10" style={{ perspective: "1000px" }}>
-              <div className="relative w-full h-full flex items-center justify-center transform scale-[0.65] md:scale-85 lg:scale-100">
+            <div className="mockup-scroll-wrapper order-2 lg:order-2 relative w-full h-[300px] md:h-[380px] lg:h-[600px] flex items-center justify-center z-10" style={{ perspective: "1000px" }}>
+              <div className="relative w-full h-full flex items-center justify-center transform scale-[0.5] md:scale-85 lg:scale-100">
                 <div
                   ref={mockupRef}
                   className="relative w-[280px] h-[580px] rounded-[3rem] iphone-bezel flex flex-col will-change-transform transform-style-3d"
