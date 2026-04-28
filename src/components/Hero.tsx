@@ -60,14 +60,14 @@ export const Hero = () => {
         <motion.h1 
           animate={{ x: [-20, 20] }}
           transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          className="text-[40vw] md:text-[35vw] font-black italic uppercase text-white"
+          className="text-[45vw] md:text-[35vw] font-black italic uppercase text-white"
         >
           BOMB
         </motion.h1>
         <motion.h1 
           animate={{ x: [20, -20] }}
           transition={{ duration: 15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          className="text-[40vw] md:text-[35vw] font-black italic uppercase text-white ml-10 md:ml-20"
+          className="text-[45vw] md:text-[35vw] font-black italic uppercase text-white ml-6 md:ml-20"
         >
           STREET
         </motion.h1>

@@ -18,10 +18,10 @@ export const Navbar = ({ user, isAdmin }: NavbarProps) => {
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center gap-2"
         >
-          <div className="w-10 h-10 bg-brand-accent flex items-center justify-center font-display font-black text-xl text-black transform -rotate-3 italic underline">
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-brand-accent flex items-center justify-center font-display font-black text-lg md:text-xl text-black transform -rotate-3 italic underline">
             B
           </div>
-          <span className="font-display font-black text-xl italic tracking-tighter uppercase">
+          <span className="font-display font-black text-lg md:text-xl italic tracking-tighter uppercase">
             BOMB <span className="text-brand-accent">STREET ART</span>
           </span>
         </motion.div>

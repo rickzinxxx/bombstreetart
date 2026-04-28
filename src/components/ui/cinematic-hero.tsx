@@ -165,9 +165,9 @@ const INJECTED_STYLES = `
       stroke-linecap: round;
   }
 
-  /* Ensure pinned container stays on top */
+  /* Ensure pinned container stays on top only when pinned */
   .pin-spacer {
-      z-index: 30 !important;
+      z-index: auto;
   }
 `;
 
@@ -261,14 +261,16 @@ export function CinematicHero({
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: isMobile ? "top 60%" : "top top", // Much later trigger on mobile
-          end: isMobile ? "+=3000" : "+=4500",
+          start: "top top", 
+          end: isMobile ? "+=2500" : "+=4500",
           pin: true,
-          scrub: isMobile ? 0.4 : 1,
+          scrub: isMobile ? 0.5 : 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onEnter: () => gsap.set(containerRef.current, { zIndex: 100 }),
-          onLeaveBack: () => gsap.set(containerRef.current, { zIndex: 20 }),
+          onLeave: () => gsap.set(containerRef.current, { zIndex: 1 }),
+          onEnterBack: () => gsap.set(containerRef.current, { zIndex: 100 }),
+          onLeaveBack: () => gsap.set(containerRef.current, { zIndex: 1 }),
         },
       });
 
@@ -324,8 +326,8 @@ export function CinematicHero({
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-full h-[100svh] overflow-hidden flex items-center justify-center bg-brand-black text-white font-sans antialiased z-20", className)}
-      style={{ perspective: "1500px", touchAction: "pan-y", marginTop: "20vh" }}
+      className={cn("relative w-full h-[100svh] overflow-hidden flex items-center justify-center bg-brand-black text-white font-sans antialiased", className)}
+      style={{ perspective: "1500px", touchAction: "pan-y" }}
       {...props}
     >
       <style dangerouslySetInnerHTML={{ __html: INJECTED_STYLES }} />
