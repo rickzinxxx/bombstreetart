@@ -164,6 +164,11 @@ const INJECTED_STYLES = `
       stroke-dashoffset: 402;
       stroke-linecap: round;
   }
+
+  /* Ensure pinned container stays on top */
+  .pin-spacer {
+      z-index: 30 !important;
+  }
 `;
 
 export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -255,12 +260,14 @@ export function CinematicHero({
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top top",
-          end: isMobile ? "+=2500" : "+=4500",
+          start: isMobile ? "top 30%" : "top top", // Increased delay for mobile
+          end: isMobile ? "+=3500" : "+=4500",
           pin: true,
-          scrub: isMobile ? 0.3 : 1.2, // Faster scrub response on mobile
+          scrub: isMobile ? 0.3 : 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onEnter: () => gsap.set(containerRef.current, { zIndex: 100 }),
+          onLeaveBack: () => gsap.set(containerRef.current, { zIndex: 20 }),
         },
       });
 
@@ -312,16 +319,17 @@ export function CinematicHero({
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-full h-[100svh] overflow-hidden flex items-center justify-center bg-brand-black text-white font-sans antialiased", className)}
-      style={{ perspective: "1500px", touchAction: "pan-y" }}
+      className={cn("relative w-full h-[100svh] overflow-hidden flex items-center justify-center bg-brand-black text-white font-sans antialiased z-20", className)}
+      style={{ perspective: "1500px", touchAction: "pan-y", marginTop: "10vh" }}
       {...props}
     >
       <style dangerouslySetInnerHTML={{ __html: INJECTED_STYLES }} />
-      <div className="film-grain" aria-hidden="true" />
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
+      
+      <div className="film-grain" aria-hidden="true" />
 
       {/* Intro Text Layer */}
-      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-6 will-change-transform transform-style-3d">
+      <div className="hero-text-wrapper absolute z-40 flex flex-col items-center justify-center text-center w-full px-6 will-change-transform transform-style-3d">
         <h1 className="text-track text-3d-matte text-xl md:text-7xl lg:text-[6rem] font-black italic tracking-tight mb-1 uppercase leading-[0.9]">
           {tagline1}
         </h1>
@@ -331,7 +339,7 @@ export function CinematicHero({
       </div>
 
       {/* CTA Layer */}
-      <div className="cta-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-6 pointer-events-auto will-change-transform">
+      <div className="cta-wrapper absolute z-40 flex flex-col items-center justify-center text-center w-full px-6 pointer-events-auto will-change-transform">
         <h2 className="text-2xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight text-brand-accent italic uppercase">
           {ctaHeading}
         </h2>
@@ -349,7 +357,7 @@ export function CinematicHero({
       </div>
 
       {/* Main Card Layer */}
-      <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" style={{ perspective: "1500px" }}>
+      <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none" style={{ perspective: "1500px" }}>
         <div
           ref={mainCardRef}
           className="main-card premium-depth-card relative overflow-hidden flex items-center justify-center pointer-events-auto w-[92vw] md:w-[85vw] h-[92vh] md:h-[85vh] rounded-[24px] md:rounded-[40px]"

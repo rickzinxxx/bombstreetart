@@ -2,7 +2,7 @@ import { CinematicHero } from "./ui/cinematic-hero";
 
 export const AboutUs = () => {
   return (
-    <section id="about" className="relative">
+    <section id="about" className="relative py-32 md:py-48 pt-48 md:pt-64">
       <CinematicHero 
         brandName="BOMB"
         tagline1="ESTILO DE RUA,"
