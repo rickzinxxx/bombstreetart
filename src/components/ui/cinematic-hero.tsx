@@ -172,6 +172,7 @@ const INJECTED_STYLES = `
 `;
 
 export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
   brandName?: string;
   tagline1?: string;
   tagline2?: string;
@@ -260,10 +261,10 @@ export function CinematicHero({
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: isMobile ? "top 30%" : "top top", // Increased delay for mobile
-          end: isMobile ? "+=3500" : "+=4500",
+          start: isMobile ? "top 60%" : "top top", // Much later trigger on mobile
+          end: isMobile ? "+=3000" : "+=4500",
           pin: true,
-          scrub: isMobile ? 0.3 : 1,
+          scrub: isMobile ? 0.4 : 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onEnter: () => gsap.set(containerRef.current, { zIndex: 100 }),
@@ -296,8 +297,6 @@ export function CinematicHero({
         // 4. HOLD & TRANSITION TO CTA
         .to({}, { duration: 1.5 })
         .set(".hero-text-wrapper", { autoAlpha: 0 })
-        .set(".cta-wrapper", { autoAlpha: 1 }) 
-        .to({}, { duration: 1.0 })
         .to([".mockup-scroll-wrapper", ".floating-badge", ".card-left-text", ".card-right-text"], {
           scale: 0.8, y: -60, z: -200, autoAlpha: 0, ease: "power3.in", duration: 1.2, stagger: 0.05,
         })
@@ -305,10 +304,16 @@ export function CinematicHero({
           width: isMobile ? "94vw" : "85vw", 
           height: isMobile ? "94vh" : "85vh", 
           borderRadius: isMobile ? "24px" : "40px", 
+          opacity: 0, // Fade out the card background to reveal CTA clearly
           ease: "expo.inOut", 
-          duration: 1.8 
+          duration: 1.2
         }, "pullback") 
-        .to(".cta-wrapper", { scale: 1, filter: "blur(0px)", ease: "expo.inOut", duration: 1.8 }, "pullback")
+        .set(".cta-wrapper", { autoAlpha: 1 }) 
+        .fromTo(".cta-wrapper", 
+          { scale: 0.8, y: 50, filter: "blur(20px)" },
+          { scale: 1, y: 0, filter: "blur(0px)", ease: "expo.out", duration: 1.8 }, 
+          "pullback"
+        )
         .to(".main-card", { y: -window.innerHeight - 300, ease: "power3.in", duration: 1.5 });
 
     }, containerRef);
@@ -320,7 +325,7 @@ export function CinematicHero({
     <div
       ref={containerRef}
       className={cn("relative w-full h-[100svh] overflow-hidden flex items-center justify-center bg-brand-black text-white font-sans antialiased z-20", className)}
-      style={{ perspective: "1500px", touchAction: "pan-y", marginTop: "10vh" }}
+      style={{ perspective: "1500px", touchAction: "pan-y", marginTop: "20vh" }}
       {...props}
     >
       <style dangerouslySetInnerHTML={{ __html: INJECTED_STYLES }} />
@@ -339,7 +344,7 @@ export function CinematicHero({
       </div>
 
       {/* CTA Layer */}
-      <div className="cta-wrapper absolute z-40 flex flex-col items-center justify-center text-center w-full px-6 pointer-events-auto will-change-transform">
+      <div className="cta-wrapper absolute z-[100] flex flex-col items-center justify-center text-center w-full px-6 pointer-events-auto font-bold will-change-transform">
         <h2 className="text-2xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight text-brand-accent italic uppercase">
           {ctaHeading}
         </h2>

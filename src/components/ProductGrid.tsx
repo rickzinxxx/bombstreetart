@@ -41,17 +41,17 @@ export const ProductGrid = () => {
     : PRODUCTS;
 
   return (
-    <section id="products" className="relative py-24 px-6 max-w-7xl mx-auto z-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+    <section id="products" className="relative py-16 md:py-24 px-4 md:px-6 max-w-7xl mx-auto z-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-5xl md:text-7xl font-black italic mb-4 leading-none uppercase">
+          <h2 className="text-4xl md:text-7xl font-black italic mb-4 leading-none uppercase">
             OS MAIS <span className="text-brand-accent">BRABOS.</span>
           </h2>
-          <p className="text-white/40 italic font-bold max-w-md uppercase tracking-widest text-xs">
+          <p className="text-white/40 italic font-bold max-w-md uppercase tracking-widest text-[10px] md:text-xs">
             As peças mais pedidas diretamente pras suas mãos. Lançamentos semanais exclusivos.
           </p>
         </motion.div>
@@ -86,16 +86,16 @@ export const ProductGrid = () => {
         </div>
       )}
 
-      <div className="mt-32 p-16 bg-[#0D0D0D] border-4 border-brand-accent transform -rotate-1 text-center overflow-hidden relative group cursor-pointer">
+      <div className="mt-20 md:mt-32 p-8 md:p-16 bg-[#0D0D0D] border-2 md:border-4 border-brand-accent transform -rotate-0 md:-rotate-1 text-center overflow-hidden relative group cursor-pointer">
         <div className="absolute inset-0 bg-brand-accent opacity-0 group-hover:opacity-5 transition-opacity" />
-        <h3 className="text-4xl md:text-6xl font-black italic mb-6 uppercase tracking-tighter">PROJETO PERSONALIZADO?</h3>
-        <p className="text-white/60 mb-10 max-w-2xl mx-auto italic font-bold uppercase tracking-widest text-sm">
+        <h3 className="text-2xl md:text-6xl font-black italic mb-4 md:mb-6 uppercase tracking-tighter">PROJETO PERSONALIZADO?</h3>
+        <p className="text-white/60 mb-8 md:mb-10 max-w-2xl mx-auto italic font-bold uppercase tracking-widest text-[10px] md:text-sm px-4">
           Fazemos drops exclusivos para sua marca ou evento. Entre em contato para orçamentos de atacado ou personalização.
         </p>
         <a 
           href={`https://wa.me/${BRAND_INFO.whatsapp}`}
           target="_blank"
-          className="inline-block bg-brand-accent text-black px-12 py-6 font-display font-black italic text-xl hover:bg-white transition-all transform hover:scale-105 shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]"
+          className="inline-block bg-brand-accent text-black px-8 md:px-12 py-4 md:py-6 font-display font-black italic text-sm md:text-xl hover:bg-white transition-all transform hover:scale-105 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] md:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]"
         >
           CHAMA NO WHATSAPP
         </a>

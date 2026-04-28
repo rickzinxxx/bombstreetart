@@ -157,20 +157,20 @@ export const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center"
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center px-4"
           >
             <button 
               onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-brand-accent text-brand-black px-12 py-8 rounded-none font-display font-black text-2xl italic hover:bg-white hover:text-black transition-all transform flex items-center justify-center gap-4 group shadow-[0_20px_50px_rgba(239,255,0,0.3)]"
+              className="bg-brand-accent text-brand-black px-8 md:px-12 py-5 md:py-8 rounded-none font-display font-black text-xl md:text-2xl italic hover:bg-white hover:text-black transition-all transform flex items-center justify-center gap-3 md:gap-4 group shadow-[0_20px_50px_rgba(239,255,0,0.3)]"
             >
               <span>VER COLEÇÃO</span>
-              <span className="text-3xl transition-transform group-hover:translate-x-3">→</span>
+              <span className="text-2xl md:text-3xl transition-transform group-hover:translate-x-3">→</span>
             </button>
             <a 
               href={`https://wa.me/${BRAND_INFO.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="border-2 border-white text-white px-12 py-8 rounded-none font-display font-black text-2xl italic hover:border-brand-accent hover:text-brand-accent transition-all flex items-center justify-center gap-4 group"
+              className="border-2 border-white text-white px-8 md:px-12 py-5 md:py-8 rounded-none font-display font-black text-xl md:text-2xl italic hover:border-brand-accent hover:text-brand-accent transition-all flex items-center justify-center gap-3 md:gap-4 group"
             >
               CATÁLOGO
             </a>

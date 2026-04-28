@@ -4,27 +4,27 @@ import { BRAND_INFO } from '../constants';
 
 export const Footer = () => {
   return (
-    <footer className="pt-24 pb-12 px-6 border-t border-white/5 bg-[#050505]">
+    <footer className="pt-16 md:pt-24 pb-8 md:pb-12 px-4 md:px-6 border-t border-white/5 bg-[#050505]">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-16">
+          <div className="space-y-4 md:space-y-6">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-brand-accent flex items-center justify-center font-display font-black text-xl text-black transform -rotate-3 italic underline">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-brand-accent flex items-center justify-center font-display font-black text-lg md:text-xl text-black transform -rotate-3 italic underline">
                 B
               </div>
-              <span className="font-display font-black text-2xl italic tracking-tighter uppercase">
+              <span className="font-display font-black text-xl md:text-2xl italic tracking-tighter uppercase">
                 BOMB <span className="text-brand-accent">STREET ART</span>
               </span>
             </div>
-            <p className="text-white/40 text-sm font-light leading-relaxed italic">
+            <p className="text-white/40 text-xs md:text-sm font-light leading-relaxed italic pr-4">
               Elevando a cultura das ruas através da arte e do vestuário. Nascidos em Recife, para o mundo.
             </p>
-            <div className="flex gap-4">
-               <a href={`https://instagram.com/${BRAND_INFO.instagram}`} target="_blank" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:border-brand-accent hover:text-brand-accent transition-colors bg-white/5">
-                <Instagram size={20} />
+            <div className="flex gap-3">
+               <a href={`https://instagram.com/${BRAND_INFO.instagram}`} target="_blank" className="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center hover:border-brand-accent hover:text-brand-accent transition-colors bg-white/5">
+                <Instagram size={18} />
                </a>
-               <a href={`https://wa.me/${BRAND_INFO.whatsapp}`} target="_blank" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:border-brand-accent hover:text-brand-accent transition-colors bg-white/5">
-                <Send size={20} />
+               <a href={`https://wa.me/${BRAND_INFO.whatsapp}`} target="_blank" className="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center hover:border-brand-accent hover:text-brand-accent transition-colors bg-white/5">
+                <Send size={18} />
                </a>
             </div>
           </div>
